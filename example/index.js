@@ -17,6 +17,7 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
+const request = require('request');
 
 const PORT = 8080;
 const SERVER_NAME = process.env.SERVER_NAME || 'localhost';
@@ -91,6 +92,19 @@ app.get('/login', (req, res) => {
   const placeOfBirth = req.get('PLACEOFBIRTH');
   const registeredOffice = req.get('REGISTEREDOFFICE');
   const spidCode = req.get('SPIDCODE');
+
+  // NOTE: This demonstrate how to fetch the assertion in order to perform
+  //       extra checks. See:
+  //         - https://wiki.shibboleth.net/confluence/display/SP3/AssertionExport
+  //         - https://wiki.shibboleth.net/confluence/display/SP3/Sessions
+  const shibAssertionCount = req.get('Shib-Assertion-Count');
+  const shibAssertionUrl = req.get(`Shib-Assertion-${shibAssertionCount}`);
+  request({
+    url: shibAssertionUrl,
+    strictSSL: false,
+  }, (err, res, body) => {
+    console.log(body);
+  });
 
   const authnContext = req.get('Shib-AuthnContext-Class');
 
