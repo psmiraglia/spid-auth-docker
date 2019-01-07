@@ -8,6 +8,9 @@
     By default, in-memory StorageService, ReplayCache, ArtifactMap, and SessionCache
     are used. See example-shibboleth2.xml for samples of explicitly configuring them.
     -->
+    <StorageService type="Memory" id="mem" cleanupInterval="900"/>
+    <SessionCache type="StorageService" StorageService="mem" cacheAssertions="true"
+        cacheAllowance="900" inprocTimeout="900" cleanupInterval="900"/>
 
     <!-- The ApplicationDefaults element is where most of Shibboleth's SAML bits are defined. -->
     <ApplicationDefaults entityID="%ENTITY_ID%"
@@ -28,7 +31,8 @@
         "false", this makes an assertion stolen in transit easier for attackers to misuse.
         -->
         <Sessions lifetime="1800" timeout="3600" relayState="ss:mem" handlerURL="/iam"
-            checkAddress="false" handlerSSL="true" cookieProps="https">
+            checkAddress="false" handlerSSL="true" cookieProps="https"
+            exportLocation="/GetAssertion" exportACL="%SERVER_NAME%">
 
 %SESSION_INITIATOR%
 

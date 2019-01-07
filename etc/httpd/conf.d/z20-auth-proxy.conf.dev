@@ -18,6 +18,7 @@
         <Location ${X_TARGET_LOCATION}>
             AuthType shibboleth
             ShibRequestSetting requireSession 1
+            ShibRequestSetting exportAssertion 1
             Require shib-session
             ShibUseHeaders On
 
@@ -30,6 +31,7 @@
             <Location /whoami>
                 AuthType shibboleth
                 ShibRequestSetting requireSession 1
+                ShibRequestSetting exportAssertion 1
                 Require shib-session
                 ShibUseHeaders On
             </Location>
